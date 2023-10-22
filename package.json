@@ -1,0 +1,19 @@
+{
+  "name": "bip85",
+  "version": "1.0.0",
+  "description": "example of how to generate BIP85 child seeds",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "bip32": "^4.0.0",
+    "bip39": "^3.1.0",
+    "bip85": "^0.0.3",
+    "bitcoinjs-lib": "^6.1.5",
+    "tiny-secp256k1": "^2.2.3"
+  }
+}
