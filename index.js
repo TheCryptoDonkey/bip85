@@ -3,9 +3,9 @@ import * as bip32 from "bip32";
 import * as bitcoin from "bitcoinjs-lib";
 import * as ecc from 'tiny-secp256k1';
 
-async function createChildMnemonic(masterMnemonic, bip85Index) {
+async function createChildMnemonic(masterMnemonic, bip85Index, password) {
     // Convert the mnemonic phrase to a seed. This seed will be used for hierarchical deterministic (HD) key generation.
-    const seed = await bip39.mnemonicToSeed(masterMnemonic);
+    const seed = await bip39.mnemonicToSeed(masterMnemonic, password);
 
     // Initialize a BIP32 root node for the bitcoin network. This is the starting point for all subsequent hierarchical key derivations.
     const rootNode = bip32.BIP32Factory(ecc).fromSeed(seed, bitcoin.networks.bitcoin);
@@ -47,16 +47,18 @@ async function main() {
     // Retrieve the master mnemonic and the child index from the command line arguments.
     const mnemonic = process.argv[2];
     const index = process.argv[3];
+    const password = process.argv[4] || ""; // If no password is provided, use an empty string
+
 
     // Check for the necessary command line arguments and provide usage instructions if they're missing.
     if (!mnemonic || !index) {
         console.error('Error: Mnemonic and BIP85 index are required.');
-        console.info('Usage: node <script> "<mnemonic>" <index>');
+        console.info('Usage: node <script> "<mnemonic>" <index> <password>');
         process.exit(1);
     }
 
     // Create the child mnemonic using the provided master mnemonic and index.
-    await createChildMnemonic(mnemonic, parseInt(index));
+    await createChildMnemonic(mnemonic, parseInt(index), password);
 }
 
 // Execute the main function and catch any errors.
